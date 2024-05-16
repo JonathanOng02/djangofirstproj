@@ -1,1 +1,7 @@
 "This is Jonathan's first django work"
+
+Djangogirls tutorial website >>>
+https://tutorial.djangogirls.org/en/
+
+To deploy website using pythonanywhere >>>
+https://tutorial.djangogirls.org/en/deploy/
