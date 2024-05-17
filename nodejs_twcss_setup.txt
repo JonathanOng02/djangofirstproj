@@ -1,0 +1,126 @@
+# Instructions for Setting Up Tailwind CSS with Node.js in a Django Project
+
+## 1. Install Node.js and npm using nvm
+
+1.1 Install nvm:
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+source ~/.bashrc
+
+1.2 Install Node.js and npm using nvm:
+nvm install --lts
+nvm use --lts
+
+1.3 Verify Installation:
+node -v
+npm -v
+
+## 2. Initialize npm and Install Tailwind CSS
+
+2.1 Initialize npm Project:
+cd ~/jonathanong02.pythonanywhere.com
+npm init -y
+
+2.2 Install Tailwind CSS and Dependencies:
+npm install tailwindcss postcss autoprefixer
+
+2.3 Generate Tailwind Configuration File:
+npx tailwindcss init
+
+## 3. Create Tailwind Source CSS File
+
+3.1 Navigate to the Static Directory:
+cd ~/jonathanong02.pythonanywhere.com/static/css
+
+3.2 Create `global_style.css`:
+nano global_style.css
+
+Add the following content:
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+## 4. Update `package.json` with Build Script
+
+4.1 Add Build Script to `package.json`:
+Open `package.json` and add the following script:
+{
+  "scripts": {
+    "build-css": "tailwindcss -i ./static/css/global_style.css -o ./static/css/style.css --minify"
+  }
+}
+
+## 5. Configure Django Settings
+
+5.1 Update `settings.py`:
+Ensure the following configuration for static files:
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+    BASE_DIR / 'blog' / 'static',
+]
+
+5.2 Collect Static Files:
+python manage.py collectstatic
+
+## 6. Build Tailwind CSS
+
+6.1 Run the Build Script:
+cd ~/jonathanong02.pythonanywhere.com
+npm run build-css
+
+## 7. Link CSS in Django Template
+
+7.1 Update Django Template:
+Ensure your template includes the generated CSS file:
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Django Girls Blog</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <header class="bg-blue-600 text-white p-4">
+        <h1 class="text-3xl font-bold">
+            <a href="/" class="text-white">Django Girls Blog</a>
+        </h1>
+    </header>
+    <div class="container mx-auto p-4">
+        <article class="bg-white p-4 rounded shadow mb-4">
+            <time class="text-gray-500">published: 14.06.2014, 12:14</time>
+            <h2 class="text-2xl font-bold mt-2">
+                <a href="" class="text-blue-600 hover:underline">My first post</a>
+            </h2>
+            <p class="mt-2">Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+        </article>
+        <article class="bg-white p-4 rounded shadow mb-4">
+            <time class="text-gray-500">published: 14.06.2014, 12:14</time>
+            <h2 class="text-2xl font-bold mt-2">
+                <a href="" class="text-blue-600 hover:underline">My second post</a>
+            </h2>
+            <p class="mt-2">Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+        </article>
+    </div>
+</body>
+</html>
+
+## Summary
+
+1. Install Node.js and npm using nvm:
+   - Install nvm, Node.js, and npm.
+2. Initialize npm and Install Tailwind CSS:
+   - Initialize npm and install Tailwind CSS and dependencies.
+3. Create Tailwind Source CSS File:
+   - Create and configure the `global_style.css` file.
+4. Update `package.json`:
+   - Add a build script for Tailwind CSS.
+5. Configure Django Settings:
+   - Update `settings.py` to handle static files.
+6. Build Tailwind CSS:
+   - Run the build script to generate the CSS file.
+7. Link CSS in Django Template:
+   - Include the generated CSS file in your Django template.
+
+By following these steps, you can successfully set up Tailwind CSS with Node.js in your Django project and ensure that your styles are correctly applied.
